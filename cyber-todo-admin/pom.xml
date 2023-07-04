@@ -67,6 +67,13 @@
             <scope>test</scope>
         </dependency>
 
+
+        <!--  ================================日志=================================    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!--  ================================DB=================================    -->
         <dependency>
             <groupId>com.mysql</groupId>

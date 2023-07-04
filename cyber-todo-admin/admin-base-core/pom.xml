@@ -36,6 +36,12 @@
             <version>${fastjson2.version}</version>
         </dependency>
 
+        <!--  Spring boot·AOP      -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 
 
