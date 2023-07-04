@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active: @profile.active@
+  application:
+    name: @application.name@
+  banner:
+    location: static/banner.txt
+server:
+  port: 9646
+
+#mybatis-plus:
+#  check-config-location: true
+##  不能同时使用配置类和配置文件
+##  config-location: classpath:mybatis/mybatis-config.xml
+#  mapper-locations: classpath:mybatis/mapper/*.xml
+#  configuration:
+#    cache-enabled: false
+#    default-executor-type: reuse
+#    default-statement-timeout: 25000
+#    jdbc-type-for-null: 'null'
+#    lazy-loading-enabled: true
+#    local-cache-scope: statement
+#    map-underscore-to-camel-case: true
+#    multiple-result-sets-enabled: true
+#    use-column-label: true
+#  global-config:
+#    db-config:
+#      id-type: auto
+#      table-underline: true
+
+
