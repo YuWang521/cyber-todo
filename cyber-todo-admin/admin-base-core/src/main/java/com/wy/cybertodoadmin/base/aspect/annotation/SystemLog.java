@@ -25,7 +25,7 @@ public @interface SystemLog {
     /**
      * 日志内容
      *
-     * @return
+     * @return 日志内容
      */
     String value() default "";
 

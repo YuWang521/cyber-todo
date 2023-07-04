@@ -16,6 +16,6 @@ public class AccessLogController {
     @RequestMapping("/save")
     @SystemLog(logType = 0, value = "aop test api")
     public String save(String name) {
-        return "Success";
+        return "name: " + name + " save success";
     }
 }
