@@ -179,26 +179,40 @@
 <!--            <plugin>-->
 <!--                <groupId>org.springframework.boot</groupId>-->
 <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <version>${spring-boot.version}</version>-->
+<!--                <configuration>-->
+<!--                    <excludes>-->
+<!--                        <exclude>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok</artifactId>-->
+<!--                        </exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
 <!--            </plugin>-->
         </plugins>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
                 <includes>
                     <!--       配置文件不能全部都包含      -->
                     <!-- <include>**/*.yml</include>   -->
                     <include>application.yml</include>
-                    <include>application-${profile.active}.yml</include>
+                    <include>application-${profile.name}.yml</include>
                     <!--       mybatis mapper             -->
                     <include>mybatis/mapper/**/*.xml</include>
                     <include>**/*.xml</include>
                     <include>**/*.json</include>
                     <include>**/*.ftl</include>
                 </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                    <exclude>**/*.yml</exclude>
+                </excludes>
             </resource>
         </resources>
     </build>
@@ -207,20 +221,58 @@
         <profile>
             <id>test</id>
             <properties>
-                <profile.active>test</profile.active>
+                <profile.name>test</profile.name>
             </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>application-test.yml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
         </profile>
         <profile>
             <id>dev</id>
+            <activation>
+                <!--默认激活配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <profile.active>dev</profile.active>
+                <profile.name>dev</profile.name>
             </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>application-dev.yml</include>
+                        </includes>
+                    </resource>
+                </resources>
+
+            </build>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <profile.active>prod</profile.active>
+                <profile.name>prod</profile.name>
             </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                        <includes>
+                            <include>application-prod.yml</include>
+                        </includes>
+                    </resource>
+                </resources>
+            </build>
         </profile>
     </profiles>
 

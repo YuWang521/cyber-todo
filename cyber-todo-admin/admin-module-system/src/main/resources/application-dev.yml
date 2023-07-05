@@ -26,3 +26,9 @@ spring:
         url-pattern: /druid/*
         login-username: admin
         login-password: wy123456
+
+  elasticsearch:
+    uris:
+      - http://localhost:9200
+    username: elastic
+    password: bQ*qvCFXGnpVw-tRuYrn

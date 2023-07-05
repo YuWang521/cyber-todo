@@ -1,8 +1,8 @@
 spring:
   profiles:
-    active: @profile.active@
+    active: '@profile.name@'
   application:
-    name: @application.name@
+    name: '@application.name@'
   banner:
     location: static/banner.txt
 server:
