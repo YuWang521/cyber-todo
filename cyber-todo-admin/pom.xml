@@ -31,13 +31,18 @@
     <properties>
         <application.name>cyber-todo-admin</application.name>
         <project.version>1.0.0</project.version>
+        <!--    ==================basic===================    -->
         <spring-boot.version>3.1.1</spring-boot.version>
         <java.version>17</java.version>
         <fastjson2.version>2.0.21</fastjson2.version>
+        <!--    ==================db===================    -->
         <!--    mybatis-plus 3.5.3以上才支持springboot 3    -->
         <mybatis-plus.version>3.5.3</mybatis-plus.version>
-        <log4j.version>1.2.17</log4j.version>
         <druid-spring-boot-starter.version>	1.2.18</druid-spring-boot-starter.version>
+        <!--    ==================log===================    -->
+        <log4j.version>1.2.17</log4j.version>
+        <!--    ==================中间件===================    -->
+        <spring-boot-starter-data-elasticsearch.version>3.0.0</spring-boot-starter-data-elasticsearch.version>
     </properties>
 
 
@@ -103,6 +108,14 @@
             <version>${log4j.version}</version>
         </dependency>
 
+        <!--  ================================中间件=================================    -->
+        <!--  elastic search    -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+            <version>${spring-boot-starter-data-elasticsearch.version}</version>
+            <!-- co.elastic.clients:elasticsearch-java:8.5.0 注意es安装版本不要差太多，和7系列一般不太兼容 -->
+        </dependency>
 
 
         <!--  ================================工具库=================================    -->

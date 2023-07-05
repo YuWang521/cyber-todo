@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import java.util.Arrays;
 
 /**
@@ -41,7 +40,12 @@ public class SystemLogAspect {
         return result;
     }
 
-
+    /**
+     *  保存日志
+     * @param joinPoint 切点
+     * @param time
+     * @param obj
+     */
     private void saveSysLog(ProceedingJoinPoint joinPoint, long time, Object obj) {
         ServletRequestAttributes attributes =
             (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
