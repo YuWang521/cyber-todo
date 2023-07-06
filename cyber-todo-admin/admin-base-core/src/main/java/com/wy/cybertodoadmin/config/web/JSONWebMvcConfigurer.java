@@ -1,4 +1,4 @@
-package com.wy.cybertodoadmin.config;
+package com.wy.cybertodoadmin.config.web;
 
 import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;

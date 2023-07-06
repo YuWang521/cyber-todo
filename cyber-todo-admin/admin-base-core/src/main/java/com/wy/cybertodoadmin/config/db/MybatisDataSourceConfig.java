@@ -1,4 +1,4 @@
-package com.wy.cybertodoadmin.config;
+package com.wy.cybertodoadmin.config.db;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
