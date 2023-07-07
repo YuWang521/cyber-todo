@@ -223,6 +223,8 @@
                     <include>application-${profile.name}.yml</include>
                     <!--       mybatis mapper             -->
                     <include>mybatis/mapper/**/*.xml</include>
+                    <!--        radisson            -->
+                    <include>radisson.yml</include>
                     <include>**/*.xml</include>
                     <include>**/*.json</include>
                     <include>**/*.ftl</include>

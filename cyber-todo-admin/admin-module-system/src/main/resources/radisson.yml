@@ -1,0 +1,20 @@
+singleServerConfig:
+  address: "redis://localhost:6379"
+  host: "localhost"
+  port: 6379
+  masterName: local-redis5.0
+  sentinel: false
+  database: 0
+  idleConnectionTimeout: 10000
+  pingTimeout: 1000
+  connectTimeout: 10000
+  timeout: 10000
+  retryInterval: 3000
+  retryAttempts: 3
+  password: null
+  subscriptionsPerConnection: 5
+  clientName: null
+threads: 512
+nettyThreads: 64
+codec: !<org.redisson.codec.MarshallingCodec> {}
+transportMode: "NIO"
