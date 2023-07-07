@@ -26,6 +26,7 @@
     <modules>
         <module>admin-base-core</module>
         <module>admin-module-system</module>
+        <module>admin-module-model</module>
     </modules>
 
     <properties>

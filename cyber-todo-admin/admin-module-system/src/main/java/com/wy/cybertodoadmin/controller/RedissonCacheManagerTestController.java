@@ -3,10 +3,8 @@ package com.wy.cybertodoadmin.controller;
 import com.wy.cybertodoadmin.base.aspect.annotation.SystemLog;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import system.entity.CasheObject;
 
 /**
  * @author WangYu
@@ -27,7 +25,7 @@ public class RedissonCacheManagerTestController {
      * @return 返回值
      */
     @Cacheable("products")
-    @SystemLog(logType = 0, value = "redisson cache test api")
+    @SystemLog(value = "redisson cache test api")
     @GetMapping("/String/{id}")
     public int getProduct(@PathVariable int id) {
         // 第一次调用会查询数据库,后续调用会返回缓存结果
@@ -37,13 +35,26 @@ public class RedissonCacheManagerTestController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return (int)id;
+        return id;
     }
 
     /**
      * 缓存对象
      *
      */
+    @Cacheable("cacheobject")
+    @SystemLog(value = "redisson cache test api")
+    @GetMapping("/Object/{id}")
+    public CasheObject getObject(@RequestBody CasheObject casheObject) {
+        // 第一次调用会查询数据库,后续调用会返回缓存结果
+        // 延时 5s
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return casheObject;
+    }
 
 
 

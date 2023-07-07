@@ -21,6 +21,12 @@
             <groupId>com.wy</groupId>
             <artifactId>admin-base-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wy</groupId>
+            <artifactId>admin-module-model</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 
