@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/redis")
 public class RedisTestConroller {
 
-//    @Resource
-//    private RedisTemplate redisTemplate;
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @RequestMapping("/test")
     @SystemLog(logType = 0, value = "redis test api")
     public String test(String name) {
-//        redisTemplate.opsForValue().set("name", name);
+        redisTemplate.opsForValue().set("name", name);
         return "name: " + name + " save success";
     }
 
