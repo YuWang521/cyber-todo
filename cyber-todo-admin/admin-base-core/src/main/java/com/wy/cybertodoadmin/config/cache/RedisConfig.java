@@ -80,7 +80,7 @@ public class RedisConfig{
      */
     @Bean
     public RedissonClient redissonClient(Config config) {
-//        config = this.getConfig();
+        config = this.getConfig();
         return Redisson.create(config);
     }
 
