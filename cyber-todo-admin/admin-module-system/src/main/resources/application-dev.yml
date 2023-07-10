@@ -67,3 +67,4 @@ redisson:
   nettyThreads: 64
 #  codec: !<org.redisson.codec.MarshallingCodec> { }
   transportMode: "NIO"
+

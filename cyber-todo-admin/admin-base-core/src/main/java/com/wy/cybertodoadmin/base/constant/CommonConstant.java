@@ -23,4 +23,7 @@ public interface CommonConstant {
      */
     int ScheduleLog = 2;
 
+    // ======================== 通用常量 ===========================
+    String STRING_NULL = "null";
+
 }

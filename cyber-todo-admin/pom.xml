@@ -45,6 +45,8 @@
         <!--    ==================中间件===================    -->
         <spring-boot-starter-data-elasticsearch.version>3.0.0</spring-boot-starter-data-elasticsearch.version>
         <redisson-spring-boot-starter.version>3.22.1</redisson-spring-boot-starter.version>
+        <!--    ==================工具库===================    -->
+        <knife4j.version>4.1.0</knife4j.version>
     </properties>
 
 
@@ -148,6 +150,22 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+        <!--    API文档 - swagger   -->
+        <!--   knife4j包含了swagger，openapi3中的依赖，所以加这一个就行      -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+
+        <!--  ================================鉴权认证=================================    -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--        </dependency>-->
+
+
 
     </dependencies>
 

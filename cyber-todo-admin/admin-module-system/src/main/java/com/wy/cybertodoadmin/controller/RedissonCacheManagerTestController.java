@@ -42,10 +42,10 @@ public class RedissonCacheManagerTestController {
      * 缓存对象
      *
      */
-    @Cacheable("cacheobject")
+    @Cacheable(cacheNames = "object-cache", key = "#casheObject.#id")
     @SystemLog(value = "redisson cache test api")
     @GetMapping("/Object/{id}")
-    public CasheObject getObject(@RequestBody CasheObject casheObject) {
+    public CasheObject getObject(@PathVariable int id,@RequestBody CasheObject casheObject) {
         // 第一次调用会查询数据库,后续调用会返回缓存结果
         // 延时 5s
         try {

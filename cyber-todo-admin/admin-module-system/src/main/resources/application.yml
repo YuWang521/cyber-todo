@@ -5,6 +5,11 @@ spring:
     name: '@application.name@'
   banner:
     location: static/banner.txt
+  datasource:
+    druid:
+      stat-view-servlet:
+#        deny优先于allow;如果allow没有配置或者为空，则允许所有访问
+        allow:
 server:
   port: 9646
 
@@ -27,5 +32,23 @@ mybatis-plus:
     db-config:
       id-type: auto
       table-underline: true
+#springdoc相关配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'hyc'
+      paths-to-match: '/**'
+      packages-to-scan: com.hyc  #改成你自己的包名，一般到启动类的包名
+
+#knife4j相关配置 可以不用改
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
 
 
