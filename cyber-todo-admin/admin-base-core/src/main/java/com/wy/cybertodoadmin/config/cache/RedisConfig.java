@@ -80,6 +80,7 @@ public class RedisConfig{
      */
     @Bean
     public RedissonClient redissonClient(Config config) {
+//        config = this.getConfig();
         return Redisson.create(config);
     }
 
@@ -131,6 +132,7 @@ public class RedisConfig{
         }else{
             SingleServerConfig singleServerConfig = config.useSingleServer();
             singleServerConfig.setDatabase(database).setAddress(address);
+
         }
         return config;
     }
