@@ -12,12 +12,16 @@ spring:
         allow:
 server:
   port: 9646
+#  会话超时时间
+  servlet:
+    session:
+      timeout: 30m
 
 mybatis-plus:
   check-config-location: true
 #  不能同时使用配置类和配置文件
 #  config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: classpath*:com/wy/cybertodoadmin/**/mapper/*Mapper.xml
   configuration:
     cache-enabled: false
     default-executor-type: reuse

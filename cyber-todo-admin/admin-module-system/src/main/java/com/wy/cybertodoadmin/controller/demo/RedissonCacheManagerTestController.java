@@ -1,15 +1,15 @@
-package com.wy.cybertodoadmin.controller;
+package com.wy.cybertodoadmin.controller.demo;
 
 import com.wy.cybertodoadmin.base.aspect.annotation.SystemLog;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-import system.entity.CasheObject;
+import com.wy.cybertodoadmin.system.entity.CasheObject;
 
 /**
  * @author WangYu
  * @project cyber-todo
- * @description
+ * @description 测试 redisson 缓存管理器
  * @date 2023/7/7 11:52:53
  */
 @RestController

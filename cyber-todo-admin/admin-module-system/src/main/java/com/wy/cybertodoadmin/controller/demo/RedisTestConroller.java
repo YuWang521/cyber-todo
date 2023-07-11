@@ -1,4 +1,4 @@
-package com.wy.cybertodoadmin.controller;
+package com.wy.cybertodoadmin.controller.demo;
 
 import com.wy.cybertodoadmin.base.aspect.annotation.SystemLog;
 import jakarta.annotation.Resource;

@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @Configuration
 //     Spring Boot 3.1 中:
 //    不再需要 @MapperScan 注解
-@MapperScan("com.wy.springboot3testdemo.dao.mapper")
+@MapperScan({"com.wy.cybertodoadmin.base.mapper", "com.wy.cybertodoadmin.mapper"})
 public class MybatisDataSourceConfig {
 
     @Value("${spring.datasource.url}")
