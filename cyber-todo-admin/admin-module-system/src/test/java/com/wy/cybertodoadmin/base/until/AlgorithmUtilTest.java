@@ -1,7 +1,6 @@
 package com.wy.cybertodoadmin.base.until;
 
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,19 +72,19 @@ class AlgorithmUtilTest {
         int[] arr = {5, 3, 8, 2, 1, 4};
         int[] expected = {1, 2, 3, 4, 8, 5};
         AlgorithmUtil.bubbleSort(arr);
-        Assert.assertNotEquals(expected, arr);
+        assertNotEquals(expected, arr);
     }
     @Test
     public void testBubbleSortEmptyArray() {
         int[] arr = {};
         AlgorithmUtil.bubbleSort(arr);
-        Assert.assertEquals(new int[]{}, arr);
+        assertEquals(new int[]{}, arr);
     }
     @Test
     public void testBubbleSortNullArray() {
         int[] arr = null;
         AlgorithmUtil.bubbleSort(arr);
-        Assert.assertNull(arr);
+        assertNull(arr);
     }
 
 

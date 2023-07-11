@@ -26,8 +26,11 @@ spring:
         url-pattern: /druid/*
         login-username: admin
         login-password: wy123456
-
-#  data:
+  security:
+    user:
+      name: user
+      password: 123456
+  #  data:
 #    redis:
 #      host: localhost
 #      port: 6379

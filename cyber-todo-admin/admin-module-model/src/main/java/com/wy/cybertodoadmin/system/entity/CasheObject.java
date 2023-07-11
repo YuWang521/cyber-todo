@@ -1,4 +1,4 @@
-package system.entity;
+package com.wy.cybertodoadmin.system.entity;
 
 import lombok.Data;
 

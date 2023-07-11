@@ -272,7 +272,7 @@
                     <include>application.yml</include>
                     <include>application-${profile.name}.yml</include>
                     <!--       mybatis mapper             -->
-                    <include>mybatis/mapper/**/*.xml</include>
+<!--                    <include>mybatis/mapper/**/*.xml</include>-->
                     <!--        radisson            -->
                     <include>radisson.yml</include>
                     <include>**/*.xml</include>

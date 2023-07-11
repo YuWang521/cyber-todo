@@ -4,7 +4,7 @@ import com.wy.cybertodoadmin.base.aspect.annotation.SystemLog;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
-import system.entity.CasheObject;
+import com.wy.cybertodoadmin.system.entity.CasheObject;
 
 /**
  * @author WangYu
