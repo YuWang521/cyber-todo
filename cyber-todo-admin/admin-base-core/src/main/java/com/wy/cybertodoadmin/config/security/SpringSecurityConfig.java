@@ -1,16 +1,18 @@
 package com.wy.cybertodoadmin.config.security;
 
+import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationFailedHandler;
+import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationSuccessHandler;
+import com.wy.cybertodoadmin.config.security.handler.JsonLogoutSuccessHandler;
+import com.wy.cybertodoadmin.config.security.strategy.JsonInvalidSessionStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.*;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -35,55 +37,93 @@ public class SpringSecurityConfig {
      *
      * @return 密码加密器
      */
+    //    @Bean
+    //    PasswordEncoder bCryptPasswordEncoder() {
+    //        return new BCryptPasswordEncoder();
+    //    }
+
+    /***
+     * 自定义监听器
+     * 用于对会话进行并发控制
+     * @return HttpSessionEventPublisher
+     */
     @Bean
-    PasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 
     /**
-     * 自定义配置 SecurityFilterChain
+     * 自定义配置 SecurityFilterChain 用户名密码表单登录
+     * <p>
+     * 1. 配置表单登录项
+     * 2. 配置注销登录项
+     * 3. 配置记住账号项
+     * 4. 配置HTTP Basic项
      */
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //        // 配置所有的Http请求必须认证
-        //        http.authorizeHttpRequests()
-        //            .requestMatchers(new AntPathRequestMatcher("/login.html")).permitAll()
-        //            .anyRequest().authenticated();
-        //        // 开启表单登录
-        //        http.formLogin()
-        //            .loginPage("/login.html") // 自定义登录页面（注意要同步配置loginProcessingUrl）
-        //            .loginProcessingUrl("/login"); // 自定义登录处理URL
-        //        // 开启Basic认证
-        //        http.httpBasic();
-        //        // 关闭 CSRF
-        //        http.csrf().disable();
-        //        return http.build();
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/login.html").permitAll().anyRequest().authenticated())
-            .formLogin(this::configureFormLogin)
-            .rememberMe(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+        http.authorizeHttpRequests(this::configureAuthorizeHttpRequests)
+            .sessionManagement(this::configureSessionManagement)
+            .formLogin(this::configureFormLogin).logout(this::configureLogout).rememberMe(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable);
-
         return http.build();
     }
 
-    // 配置表单登录项
-    private FormLoginConfigurer<HttpSecurity> configureFormLogin(FormLoginConfigurer<HttpSecurity> formLogin) {
-        return formLogin.loginPage("/login.html") // 自定义登录页面（注意要同步配置loginProcessingUrl）,如果和ProcessingUrl相同，会导致死循环
-            .loginProcessingUrl("/login").permitAll() // 自定义登录处理URL
-            .usernameParameter("username") // 自定义登录用户名参数名
-            .passwordParameter("password") // 自定义登录密码参数名
-            .defaultSuccessUrl("/index.html") // 登录成功后的跳转页面 重定向，地址不变
-//            .successForwardUrl("/index.html") // 登录成功后的跳转页面 转发，地址不变
-            .failureUrl("/login.html?error"); // 登录失败后的跳转页面 重定向，地址不变
-//            .failureForwardUrl("/login.html?error"); // 登录失败后的跳转页面 转发，地址不变
+    /**
+     * 配置认证Http请求
+     * 允许可以直接访问的Http请求
+     *
+     * @param authorize Http请求授权配置器
+     */
+    private void configureAuthorizeHttpRequests(
+        AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorize) {
+        authorize.requestMatchers(new AntPathRequestMatcher("/login.html")).permitAll().anyRequest().authenticated();
     }
 
+    /**
+     *  配置表单登录项
+     * @param formLogin 表单登录配置器
+     * @return 表单登录配置器
+     */
+    private FormLoginConfigurer<HttpSecurity> configureFormLogin(FormLoginConfigurer<HttpSecurity> formLogin) {
+        return formLogin
+            //            .loginPage("/login.html") // 自定义登录页面（注意要同步配置loginProcessingUrl）,如果和ProcessingUrl相同，会导致死循环
+            //            .loginProcessingUrl("/login").permitAll() // 自定义登录处理URL
+            //            .usernameParameter("username") // 自定义登录用户名参数名
+            //            .passwordParameter("password") // 自定义登录密码参数名
+            //            .defaultSuccessUrl("/index.html") // 登录成功后的跳转页面 重定向，地址不变
+            //            .successForwardUrl("/index.html") // 登录成功后的跳转页面 转发，地址不变
+            //            .failureUrl("/login.html?error")// 登录失败后的跳转页面 重定向，地址不变
+            //            .failureForwardUrl("/login.html?error"); // 登录失败后的跳转页面 转发，地址不变
+            .successHandler(new JsonAuthenticationSuccessHandler()).failureHandler(new JsonAuthenticationFailedHandler());
+    }
+
+    /**
+     * 表单注销登录配置
+     * spring security 默认的注销登录地址是 /logout
+     * 注销接口支持多种请求方式，如 GET、POST、PUT、DELETE 等
+     */
+    private LogoutConfigurer<HttpSecurity> configureLogout(LogoutConfigurer<HttpSecurity> logout) {
+        return logout.logoutUrl("/logout").logoutSuccessHandler(new JsonLogoutSuccessHandler())
+            .deleteCookies("JSESSIONID");
+    }
+
+    /**
+     * 配置会话管理
+     * 会话创建默认为IF_REQUIRED模式，即只有需要时才会创建会话
+     * 会话的超时时间可以通过spring security的配置项server.servlet.session.timeout来配置
+     * @param sessionManagement 会话管理配置器
+     * @return 会话管理配置器
+     */
+        private SessionManagementConfigurer<HttpSecurity> configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagement) {
+            return sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .invalidSessionStrategy(new JsonInvalidSessionStrategy());
+        }
+
     // Bascie认证
-//    private HttpBasicConfigurer<HttpSecurity> configureHttpBasic(HttpBasicConfigurer<HttpSecurity> httpBasic) {
-//        return httpBasic.realmName("my-basic-realm");
-//    }
-
-
+    //    private HttpBasicConfigurer<HttpSecurity> configureHt tpBasic(HttpBasicConfigurer<HttpSecurity> httpBasic) {
+    //        return httpBasic.realmName("my-basic-realm");
+    //    }
 
     //
     //    @Bean

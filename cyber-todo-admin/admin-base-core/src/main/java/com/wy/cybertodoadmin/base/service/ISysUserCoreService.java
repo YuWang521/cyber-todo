@@ -10,4 +10,11 @@ import com.wy.cybertodoadmin.system.entity.account.SysUserCore;
  * @date 2023/7/11 15:04:54
  */
 public interface ISysUserCoreService extends IService<SysUserCore> {
+
+    /**
+     * 按用户名进行查询
+     */
+    SysUserCore selectByAccountName(String accountName);
+
+
 }

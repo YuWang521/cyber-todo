@@ -1,5 +1,6 @@
 package com.wy.cybertodoadmin.base.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wy.cybertodoadmin.base.mapper.SysUserCoreServiceMapper;
 import com.wy.cybertodoadmin.base.service.ISysUserCoreService;
@@ -17,6 +18,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ISysUserCoreServiceImpl extends ServiceImpl<SysUserCoreServiceMapper, SysUserCore> implements ISysUserCoreService {
 
-
-
+    @Override
+    public SysUserCore selectByAccountName(String accountName) {
+        LambdaUpdateWrapper<SysUserCore> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(SysUserCore::getAccountName, accountName);
+        return this.getOne(lambdaUpdateWrapper);
+    }
 }

@@ -12,6 +12,10 @@ spring:
         allow:
 server:
   port: 9646
+#  会话超时时间
+  servlet:
+    session:
+      timeout: 30m
 
 mybatis-plus:
   check-config-location: true
