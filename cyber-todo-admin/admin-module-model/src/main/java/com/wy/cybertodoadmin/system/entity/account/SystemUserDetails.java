@@ -18,7 +18,9 @@ import java.util.*;
 @Slf4j
 public class SystemUserDetails implements UserDetails {
 
+
     private String password;
+    private final String id;
     private final String username;
     private final String phone; // 扩展字段，手机号放入用户信息中
     private final Set<GrantedAuthority> authorities;
@@ -27,8 +29,9 @@ public class SystemUserDetails implements UserDetails {
     private final boolean credentialsNonExpired;
     private final boolean enabled;
 
-    public SystemUserDetails( String username,String password, String phone, List<GrantedAuthority> authorities, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
+    public SystemUserDetails( String id,String username,String password, String phone, List<GrantedAuthority> authorities, boolean accountNonExpired, boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled) {
         this.password = password;
+        this.id = id;
         this.phone = phone;
         this.username = username;
         this.accountNonExpired = accountNonExpired;

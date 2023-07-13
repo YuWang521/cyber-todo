@@ -1,7 +1,6 @@
 package com.wy.cybertodoadmin.base.service;
 
 import com.wy.cybertodoadmin.CyberTodoAdminApplication;
-import com.wy.cybertodoadmin.base.constant.CommonConstant;
 import com.wy.cybertodoadmin.system.entity.account.SysUserCore;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class ISysUserCoreServiceTest {
     @Resource
     private ISysUserCoreService sysUserCoreService;
 
-    @Autowired
+    @Resource
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test

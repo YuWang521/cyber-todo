@@ -6,16 +6,13 @@ import com.wy.cybertodoadmin.system.entity.account.SystemUserDetails;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.KeyPair;
 import java.util.List;
 
 /**
@@ -61,7 +58,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     private SystemUserDetails getSystemUserDetails(SysUserCore sysUserCore) {
         List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
-        return new SystemUserDetails(sysUserCore.getAccountName(),getEncodePwd(sysUserCore.getAccountPwd() , sysUserCore.getAccountSalt()),sysUserCore.getAccountPhone(),authorityList,true,true,true,true);
+        return new SystemUserDetails(sysUserCore.getId(),sysUserCore.getAccountName(),getEncodePwd(sysUserCore.getAccountPwd() , sysUserCore.getAccountSalt()),sysUserCore.getAccountPhone(),authorityList,true,true,true,true);
     }
 
 
