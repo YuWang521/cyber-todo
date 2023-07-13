@@ -1,5 +1,6 @@
 package com.wy.cybertodoadmin.config.security;
 
+import com.wy.cybertodoadmin.config.security.encoder.SystemPasswordEncoder;
 import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationFailedHandler;
 import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationSuccessHandler;
 import com.wy.cybertodoadmin.config.security.handler.JsonLogoutSuccessHandler;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -37,10 +39,10 @@ public class SpringSecurityConfig {
      *
      * @return 密码加密器
      */
-    //    @Bean
-    //    PasswordEncoder bCryptPasswordEncoder() {
-    //        return new BCryptPasswordEncoder();
-    //    }
+        @Bean
+        PasswordEncoder bCryptPasswordEncoder() {
+            return new SystemPasswordEncoder();
+        }
 
     /***
      * 自定义监听器

@@ -26,10 +26,12 @@ spring:
         url-pattern: /druid/*
         login-username: admin
         login-password: wy123456
-  security:
-    user:
-      name: user
-      password: 123456
+# ==================security配置==================
+#  security:
+#    user:
+#      name: user
+#      password: $2a$10$y/.2k6wPmRED4h/3oyKtUuX1uTKHs9HFOEAf96eSd9OmIqpdso1De
+#  ==================jedis 客户端配置==================
   #  data:
 #    redis:
 #      host: localhost

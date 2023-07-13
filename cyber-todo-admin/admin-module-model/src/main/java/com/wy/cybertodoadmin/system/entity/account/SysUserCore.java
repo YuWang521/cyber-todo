@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author WangYu
@@ -46,6 +47,15 @@ public class SysUserCore implements Serializable {
     // is_lock 默认为true
 
     private Boolean isLock;
+
+    // create_by
+    private String createBy;
+
+    // create_time
+    private Date createTime;
+
+    // update_time
+    private Date updateTime;
 
 
 

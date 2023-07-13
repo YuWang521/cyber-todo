@@ -17,4 +17,6 @@ public interface ISysUserCoreService extends IService<SysUserCore> {
     SysUserCore selectByAccountName(String accountName);
 
 
+
+
 }
