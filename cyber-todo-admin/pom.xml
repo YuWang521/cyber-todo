@@ -49,6 +49,7 @@
         <freemarker.version>2.3.31</freemarker.version>
         <!--    ==================工具库===================    -->
         <knife4j.version>4.1.0</knife4j.version>
+        <hutool.version>5.8.20</hutool.version>
     </properties>
 
 
@@ -188,6 +189,13 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
+        </dependency>
+
+        <!--   hutool工具库     -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
 
         <!--  ================================鉴权认证=================================    -->

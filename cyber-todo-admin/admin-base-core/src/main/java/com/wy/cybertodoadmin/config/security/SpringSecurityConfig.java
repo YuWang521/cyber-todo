@@ -30,6 +30,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig {
 
     /**
+     * 自定义配置 SecurityFilterChain
+     * 登录接口
+     * swagger 接口文档不需要认证
+     */
+    private static final String[] AUTH_LIST = {
+        "/login",
+        "/doc.html",
+        "/doc.html/**",
+        "/v3/api-docs/**",
+        "/configuration/ui/**",
+        "/swagger-resources/**",
+        "/configuration/security/**",
+        "/swagger-ui.html",
+        "/webjars/**"
+    };
+
+    /**
      * 密码加密器
      * 推荐顺序: BCryptPasswordEncoder > Pbkdf2PasswordEncoder > SCryptPasswordEncoder > StandardPasswordEncoder
      * bcrypt / scrypt :安全性最高,推荐用于密码加密
@@ -79,7 +96,17 @@ public class SpringSecurityConfig {
      */
     private void configureAuthorizeHttpRequests(
         AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorize) {
-        authorize.requestMatchers(new AntPathRequestMatcher("/login.html")).permitAll().anyRequest().authenticated();
+        AntPathRequestMatcher[] antPathRequestMatchers = new AntPathRequestMatcher[AUTH_LIST.length];
+        for (int i = 0; i < AUTH_LIST.length; i++) {
+            antPathRequestMatchers[i] = new AntPathRequestMatcher(AUTH_LIST[i]);
+        }
+        authorize.requestMatchers(antPathRequestMatchers).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/v3/api-docs")).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/configuration/ui")).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/swagger-resources/**")).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/configuration/security")).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/swagger-ui.html")).permitAll().anyRequest().authenticated();
+//        authorize.requestMatchers(new AntPathRequestMatcher("/webjars/**")).permitAll().anyRequest().authenticated();
     }
 
     /**
