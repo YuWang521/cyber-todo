@@ -7,10 +7,12 @@ import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageCo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,11 +47,19 @@ public class JSONWebMvcConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // 1. 转换器
+        // 1. 转换器 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        List<MediaType> supportMediaTypeList = new ArrayList<>();
+        supportMediaTypeList.add(MediaType.APPLICATION_JSON);
+        supportMediaTypeList.add(MediaType.TEXT_PLAIN);
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setWriterFeatures(JSONWriter.Feature.WriteEnumsUsingName,JSONWriter.Feature.NotWriteRootClassName);
+        fastJsonConfig.setDateFormat("yyyy-MM-dd HH:mm:ss");
+        converter.setFastJsonConfig(fastJsonConfig);
+        converter.setSupportedMediaTypes(supportMediaTypeList);
         converter.setDefaultCharset(StandardCharsets.UTF_8);
-        converter.setFastJsonConfig(fastJsonConfig());
-        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
-        converters.add(0, converter);
+        // 解决OpenAPI 返回数组时，swagger-ui.html 无法解析的问题
+        converters.add(new ByteArrayHttpMessageConverter());
+        converters.add(converter);
     }
 }

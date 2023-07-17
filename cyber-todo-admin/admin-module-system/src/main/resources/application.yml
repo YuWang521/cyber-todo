@@ -68,5 +68,8 @@ knife4j:
 #    - name: 标题2
 #      locations: classpath:markdown1/*
 #      group: 用户模块
+logging:
+  level:
+    com.wy.cybertodoadmin: debug
 
 

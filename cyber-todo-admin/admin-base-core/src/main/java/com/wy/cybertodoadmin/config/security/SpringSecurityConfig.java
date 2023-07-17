@@ -43,7 +43,9 @@ public class SpringSecurityConfig {
         "/swagger-resources/**",
         "/configuration/security/**",
         "/swagger-ui.html",
-        "/webjars/**"
+        "/webjars/**",
+        "/swagger-ui/**",
+        "/log/**"
     };
 
     /**
@@ -66,10 +68,10 @@ public class SpringSecurityConfig {
      * 用于对会话进行并发控制
      * @return HttpSessionEventPublisher
      */
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
+//    @Bean
+//    public HttpSessionEventPublisher httpSessionEventPublisher() {
+//        return new HttpSessionEventPublisher();
+//    }
 
     /**
      * 自定义配置 SecurityFilterChain 用户名密码表单登录
@@ -82,7 +84,7 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(this::configureAuthorizeHttpRequests)
-            .sessionManagement(this::configureSessionManagement)
+//            .sessionManagement(this::configureSessionManagement)
             .formLogin(this::configureFormLogin).logout(this::configureLogout).rememberMe(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
             .csrf(AbstractHttpConfigurer::disable);
         return http.build();

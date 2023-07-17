@@ -26,11 +26,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-
     @Resource
     private ISysUserCoreServiceImpl sysUserCoreService;
-
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -40,10 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         SysUserCore sysUserCore = sysUserCoreService.selectByAccountName(username);
         if (sysUserCore == null) {
             throw new UsernameNotFoundException("用户不存在");
-        }else{
+        } else {
             return getSystemUserDetails(sysUserCore);
         }
-
     }
 
     /**
@@ -58,12 +54,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     private SystemUserDetails getSystemUserDetails(SysUserCore sysUserCore) {
         List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList("admin");
-        return new SystemUserDetails(sysUserCore.getId(),sysUserCore.getAccountName(),getEncodePwd(sysUserCore.getAccountPwd() , sysUserCore.getAccountSalt()),sysUserCore.getAccountPhone(),authorityList,true,true,true,true);
+        return new SystemUserDetails(sysUserCore.getId(), sysUserCore.getAccountName(), getEncodePwd(sysUserCore.getAccountPwd(), sysUserCore.getAccountSalt()),
+            sysUserCore.getAccountPhone(), authorityList, true, true, true, true);
     }
-
-
-
-
-
 
 }

@@ -19,7 +19,6 @@ import java.util.Map;
  */
 @Configuration
 public class SwaggerConfig {
-
     /**
      * 根据@Tag 上的排序，写入x-order
      *
@@ -42,6 +41,7 @@ public class SwaggerConfig {
 
         };
     }
+
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
@@ -49,8 +49,8 @@ public class SwaggerConfig {
                 .title("赛博助手系统API")
                 .version("1.0")
                 .description( "赛博助手后台管理系统API")
-                .termsOfService("http://doc.xiaominfo.com")
+                .termsOfService("http://doc.com")
                 .license(new License().name("Apache 2.0")
-                    .url("http://doc.xiaominfo.com")));
+                    .url("http://doc.com")));
     }
 }
