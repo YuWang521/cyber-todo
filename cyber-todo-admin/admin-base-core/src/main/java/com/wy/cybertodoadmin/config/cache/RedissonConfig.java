@@ -1,6 +1,5 @@
 package com.wy.cybertodoadmin.config.cache;
 
-import com.alibaba.fastjson2.support.spring.data.redis.FastJsonRedisSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -30,7 +29,7 @@ import java.util.Arrays;
 @EnableCaching
 @Slf4j
 // 在Spring Boot 3中使用Redisson作为缓存提供者,是不需要继承CachingConfigurerSupport类
-public class RedisConfig{
+public class RedissonConfig {
 
     /**
      * 在Spring Boot 3中,RedisTemplate和Redisson都是可用的。
@@ -94,41 +93,43 @@ public class RedisConfig{
         return new RedissonSpringCacheManager(redisson);
     }
 
-    /**
-     * 序列化方式
-     * @param connectionFactory redis连接工厂
-     * @return RedisTemplate
-     *  RedissonClient 内部也使用 RedisTemplate 来连接 Redis 服务器,
-     *  所以如果配置了 RedisTemplate 的序列化器,
-     *  RedissonClient 在序列化缓存对象时也会使用这个序列化器
-     */
-    @Bean
-    @SuppressWarnings(value = {"unchecked", "rawtypes"})
-    public RedisTemplate<Object, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory connectionFactory) {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
-
-        FastJson2JsonRedisSerializer serializer = new FastJson2JsonRedisSerializer(Object.class);
-//        FastJsonRedisSerializer serializer = new FastJsonRedisSerializer(Object.class);
-
-        // 使用StringRedisSerializer来序列化和反序列化redis的key值
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(serializer);
-
-        // Hash的key也采用StringRedisSerializer的序列化方式
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(serializer);
-
-        template.afterPropertiesSet();
-        return template;
-    }
+    //    /**
+    //     * 序列化方式
+    //     * @param connectionFactory redis连接工厂
+    //     * @return RedisTemplate
+    //     *  RedissonClient 内部也使用 RedisTemplate 来连接 Redis 服务器,
+    //     *  所以如果配置了 RedisTemplate 的序列化器,
+    //     *  RedissonClient 在序列化缓存对象时也会使用这个序列化器
+    //     */
+    //    @Bean
+    //    @SuppressWarnings(value = {"unchecked", "rawtypes"})
+    //    public RedisTemplate<Object, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory connectionFactory) {
+    //        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+    //        template.setConnectionFactory(connectionFactory);
+    //
+    //        FastJson2JsonRedisSerializer serializer = new FastJson2JsonRedisSerializer(Object.class);
+    ////        FastJsonRedisSerializer serializer = new FastJsonRedisSerializer(Object.class);
+    //
+    //        // 使用StringRedisSerializer来序列化和反序列化redis的key值
+    //        template.setKeySerializer(new StringRedisSerializer());
+    //        template.setValueSerializer(serializer);
+    //
+    //        // Hash的key也采用StringRedisSerializer的序列化方式
+    //        template.setHashKeySerializer(new StringRedisSerializer());
+    //        template.setHashValueSerializer(serializer);
+    //
+    //        template.afterPropertiesSet();
+    //        return template;
+    //    }
     @Bean
     public Config getConfig() {
         Config config = new Config();
-        if ("true".equals(this.sentinel)){
+        // redisson 编码使用fastjson
+        config.setCodec(new FastJson2Codec());
+        if ("true".equals(this.sentinel)) {
             SentinelServersConfig sentinelServersConfig = config.useSentinelServers();
             sentinelServersConfig.setDatabase(database).setPassword(password).setMasterName(masterName).setSentinelAddresses(Arrays.asList(host.split(",")));
-        }else{
+        } else {
             SingleServerConfig singleServerConfig = config.useSingleServer();
             singleServerConfig.setDatabase(database).setAddress(address);
         }

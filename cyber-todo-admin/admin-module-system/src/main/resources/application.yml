@@ -8,8 +8,11 @@ spring:
   datasource:
     druid:
       stat-view-servlet:
-#        deny优先于allow;如果allow没有配置或者为空，则允许所有访问
+        #        deny优先于allow;如果allow没有配置或者为空，则允许所有访问
         allow:
+  session:
+    redis:
+      namespace: 'cyber-todo-admin:auth'
 server:
   port: 9646
 #  会话超时时间

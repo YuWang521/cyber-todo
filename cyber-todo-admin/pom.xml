@@ -146,6 +146,16 @@
             <version>${redisson-spring-boot-starter.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
+
         <!--   mp 代码生成     -->
         <!--代码生成器-->
         <dependency>
