@@ -4,6 +4,7 @@ import com.wy.cybertodoadmin.config.security.encoder.SystemPasswordEncoder;
 import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationFailedHandler;
 import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationSuccessHandler;
 import com.wy.cybertodoadmin.config.security.handler.JsonLogoutSuccessHandler;
+import com.wy.cybertodoadmin.config.security.strategy.JsonExpiredSessionStrategy;
 import com.wy.cybertodoadmin.config.security.strategy.JsonInvalidSessionStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,10 +69,10 @@ public class SpringSecurityConfig {
      * 用于对会话进行并发控制
      * @return HttpSessionEventPublisher
      */
-//    @Bean
-//    public HttpSessionEventPublisher httpSessionEventPublisher() {
-//        return new HttpSessionEventPublisher();
-//    }
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
+    }
 
     /**
      * 自定义配置 SecurityFilterChain 用户名密码表单登录
@@ -83,9 +84,20 @@ public class SpringSecurityConfig {
      */
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(this::configureAuthorizeHttpRequests)
-//            .sessionManagement(this::configureSessionManagement)
-            .formLogin(this::configureFormLogin).logout(this::configureLogout).rememberMe(Customizer.withDefaults()).httpBasic(Customizer.withDefaults())
+        http
+            // 认证请求
+            .authorizeHttpRequests(this::configureAuthorizeHttpRequests)
+            // 会话管理
+            .sessionManagement(this::configureSessionManagement)
+            // 表单登录
+            .formLogin(this::configureFormLogin)
+            // 注销登录
+            .logout(this::configureLogout)
+            // 记住我
+            .rememberMe(Customizer.withDefaults())
+            // HTTP Basic
+            .httpBasic(Customizer.withDefaults())
+            // CSRF
             .csrf(AbstractHttpConfigurer::disable);
         return http.build();
     }
@@ -135,7 +147,12 @@ public class SpringSecurityConfig {
      * 注销接口支持多种请求方式，如 GET、POST、PUT、DELETE 等
      */
     private LogoutConfigurer<HttpSecurity> configureLogout(LogoutConfigurer<HttpSecurity> logout) {
-        return logout.logoutUrl("/logout").logoutSuccessHandler(new JsonLogoutSuccessHandler())
+        return logout
+            // 自定义注销登录URL
+            .logoutUrl("/logout")
+            // 自定义注销登录成功处理器
+            .logoutSuccessHandler(new JsonLogoutSuccessHandler())
+            // 注销删除cookie
             .deleteCookies("JSESSIONID");
     }
 
@@ -147,8 +164,21 @@ public class SpringSecurityConfig {
      * @return 会话管理配置器
      */
         private SessionManagementConfigurer<HttpSecurity> configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagement) {
-            return sessionManagement.sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .invalidSessionStrategy(new JsonInvalidSessionStrategy());
+            return sessionManagement
+                // 会话创建策略
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                // 会话固定攻击保护
+                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
+                // 会话失效策略
+                .invalidSessionStrategy(new JsonInvalidSessionStrategy())
+                // 会话并发控制
+                .sessionConcurrency(sessionConcurrency -> sessionConcurrency
+                    // 最大会话数
+                    .maximumSessions(1)
+                    // 异地登录
+                    .maxSessionsPreventsLogin(false)
+                    //  session过期策略
+                    .expiredSessionStrategy(new JsonExpiredSessionStrategy()));
         }
 
     // Bascie认证
