@@ -28,6 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity(debug = false)
+
 public class SpringSecurityConfig {
 
     /**

@@ -1,6 +1,7 @@
 package com.wy.cybertodoadmin.config.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.session.SessionRegistry;
@@ -17,7 +18,7 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
  */
 @Configuration
 @RequiredArgsConstructor
-@EnableRedisIndexedHttpSession // 开启支持索引保存会话
+@EnableRedisIndexedHttpSession(redisNamespace = "${spring.session.redis.namespace}") // 开启支持索引保存会话
 public class SpringSessionBackedSessionRegistryConfig {
 
     // @EnableRedisIndexedHttpSession 会自动注册 FindByIndexNameSessionRepository
