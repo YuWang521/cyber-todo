@@ -21,12 +21,17 @@ import java.util.Map;
 public class JsonLogoutSuccessHandler implements LogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        // 被下线用户点击注销
+        String data = "null";
+        if (authentication != null) {
+            data = authentication.getName();
+        }
         response.setContentType("application/json;charset=utf-8"); // 返回JSON
         response.setStatus(HttpStatus.OK.value());  // 状态码 200
         Map<String, Object> result = new HashMap<>(); // 返回结果
         result.put("msg", "注销成功");
         result.put("code", 200);
-        result.put("data", authentication.getName());
+        result.put("data", data);
         response.getWriter().write(JSON.toJSONString(result));
     }
 }

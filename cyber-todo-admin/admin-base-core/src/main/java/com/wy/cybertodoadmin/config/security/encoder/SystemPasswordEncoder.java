@@ -1,6 +1,6 @@
 package com.wy.cybertodoadmin.config.security.encoder;
 
-import com.wy.cybertodoadmin.base.constant.CommonConstant;
+import com.wy.cybertodoadmin.core.constant.CommonConstant;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.crypto.bcrypt.BCrypt;

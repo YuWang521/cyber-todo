@@ -18,6 +18,6 @@ public class JsonInvalidSessionStrategy implements InvalidSessionStrategy {
     public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/json;charset=utf-8"); // 返回JSON
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);  // 状态码 401
-        response.getWriter().write("{\"code\":401,\"msg\":\"会话失效\"}");
+        response.getWriter().write("{\"code\":401,\"msg\":\"无会话记录或会话失效\"}");
     }
 }

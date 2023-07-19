@@ -63,16 +63,23 @@
         </dependency>
     </dependencies>
 
-<!--    <build>-->
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                &lt;!&ndash;开启过滤，用指定的参数替换directory下的文件中的参数 用于读取profiles文件&ndash;&gt;-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
-<!--    </build>-->
-
+    <!--    <build>-->
+    <!--        <resources>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/resources</directory>-->
+    <!--                &lt;!&ndash;开启过滤，用指定的参数替换directory下的文件中的参数 用于读取profiles文件&ndash;&gt;-->
+    <!--                <filtering>true</filtering>-->
+    <!--            </resource>-->
+    <!--        </resources>-->
+    <!--    </build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

@@ -1,4 +1,4 @@
-package com.wy.cybertodoadmin.base.constant;
+package com.wy.cybertodoadmin.core.constant;
 
 /**
  * @author WangYu
@@ -38,6 +38,26 @@ public interface CommonConstant {
      */
     int HASH_SALT_LENGTH = 74;
 
+    /**
+     * 验证码参数名
+     */
+    String CAPTCHA_PARAMETER_NAME = "captcha";
+
+    /**
+     * 验证码Id参数名
+     */
+    String CAPTCHA_ID_PARAMETER_NAME = "captchaId";
+
+    /**
+     * 验证码有效期（分钟）
+     */
+    Integer CAPTCHA_EXPIRATION = 4;
+
+    /**
+     * 验证码namespace
+     */
+    String CAPTCHA_NAMESPACE = "cyber-todo-admin:captcha";
+
     // ======================== 标识符，分隔符 ===========================
 
     /**
@@ -49,5 +69,11 @@ public interface CommonConstant {
      * 分隔符表达式
      */
     String SPLIT_EXPRESSION = "\\*";
+
+    // ======================== 响应状态码 ===========================
+
+    Integer RES_OK = 200;
+
+    Integer RES_FAIL = 500;
 
 }

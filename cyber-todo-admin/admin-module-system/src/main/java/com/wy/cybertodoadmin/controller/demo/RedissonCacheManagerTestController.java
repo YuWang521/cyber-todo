@@ -1,6 +1,9 @@
 package com.wy.cybertodoadmin.controller.demo;
 
 import com.wy.cybertodoadmin.base.aspect.annotation.SystemLog;
+import com.wy.cybertodoadmin.core.vo.Res_;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,7 @@ import com.wy.cybertodoadmin.system.entity.CasheObject;
 @RestController
 @RequestMapping("/rediscache")
 @CacheConfig(cacheNames = "testCache")
+@Tag(name = "功能测试模块-测试 redisson 缓存管理器API")
 public class RedissonCacheManagerTestController {
 
     /**
@@ -27,6 +31,7 @@ public class RedissonCacheManagerTestController {
     @Cacheable("products")
     @SystemLog(value = "redisson cache test api")
     @GetMapping("/String/{id}")
+    @Operation(summary = "测试 redisson 缓存管理器API - 字符串类型")
     public int getProduct(@PathVariable int id) {
         // 第一次调用会查询数据库,后续调用会返回缓存结果
         // 延时 5s
@@ -40,12 +45,12 @@ public class RedissonCacheManagerTestController {
 
     /**
      * 缓存对象
-     *
      */
     @Cacheable(cacheNames = "object-cache", key = "#casheObject.#id")
     @SystemLog(value = "redisson cache test api")
     @GetMapping("/Object/{id}")
-    public CasheObject getObject(@PathVariable int id,@RequestBody CasheObject casheObject) {
+    @Operation(summary = "测试 redisson 缓存管理器API - 对象类型")
+    public Res_<CasheObject> getObject(@PathVariable int id, @RequestBody CasheObject casheObject) {
         // 第一次调用会查询数据库,后续调用会返回缓存结果
         // 延时 5s
         try {
@@ -53,7 +58,7 @@ public class RedissonCacheManagerTestController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return casheObject;
+        return Res_.ok(casheObject);
     }
 
 

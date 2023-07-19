@@ -31,28 +31,28 @@
 
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <version>${spring-boot.version}</version>-->
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                &lt;!&ndash;开启过滤，用指定的参数替换directory下的文件中的参数 用于读取profiles文件&ndash;&gt;-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
+        <!--        <plugins>-->
+        <!--                        <plugin>-->
+        <!--                            <groupId>org.springframework.boot</groupId>-->
+        <!--                            <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--            &lt;!&ndash;                <version>${spring-boot.version}</version>&ndash;&gt;-->
+        <!--                            <configuration>-->
+        <!--                                <excludes>-->
+        <!--                                    <exclude>-->
+        <!--                                        <groupId>org.projectlombok</groupId>-->
+        <!--                                        <artifactId>lombok</artifactId>-->
+        <!--                                    </exclude>-->
+        <!--                                </excludes>-->
+        <!--                            </configuration>-->
+        <!--                        </plugin>-->
+        <!--        </plugins>-->
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/resources</directory>-->
+        <!--                &lt;!&ndash;开启过滤，用指定的参数替换directory下的文件中的参数 用于读取profiles文件&ndash;&gt;-->
+        <!--                <filtering>true</filtering>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
     </build>
 
 </project>

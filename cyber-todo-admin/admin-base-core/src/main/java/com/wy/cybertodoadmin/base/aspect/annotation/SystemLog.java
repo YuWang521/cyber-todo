@@ -1,6 +1,6 @@
 package com.wy.cybertodoadmin.base.aspect.annotation;
 
-import com.wy.cybertodoadmin.base.constant.CommonConstant;
+import com.wy.cybertodoadmin.core.constant.CommonConstant;
 
 import java.lang.annotation.*;
 

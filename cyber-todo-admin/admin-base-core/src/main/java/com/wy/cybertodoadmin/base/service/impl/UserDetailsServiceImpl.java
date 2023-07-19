@@ -1,6 +1,6 @@
 package com.wy.cybertodoadmin.base.service.impl;
 
-import com.wy.cybertodoadmin.base.constant.CommonConstant;
+import com.wy.cybertodoadmin.core.constant.CommonConstant;
 import com.wy.cybertodoadmin.system.entity.account.SysUserCore;
 import com.wy.cybertodoadmin.system.entity.account.SystemUserDetails;
 import jakarta.annotation.Resource;

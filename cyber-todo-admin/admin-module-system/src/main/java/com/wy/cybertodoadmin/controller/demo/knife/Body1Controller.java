@@ -5,10 +5,12 @@
 package com.wy.cybertodoadmin.controller.demo.knife;
 
 
+import com.wy.cybertodoadmin.core.vo.Res_;
 import com.wy.cybertodoadmin.demo.model.FileResp;
 import com.wy.cybertodoadmin.demo.model.MapEnumUser;
 import com.wy.cybertodoadmin.demo.model.User;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,14 +55,20 @@ public class Body1Controller {
 
     @Operation(summary = "普通body请求1")
     @PostMapping("/cc/body1")
-    public ResponseEntity<FileResp> body2(@RequestBody FileResp fileResp){
+    public ResponseEntity<FileResp> body2(@RequestBody FileResp fileResp) {
         return ResponseEntity.ok(fileResp);
     }
 
     @Operation(summary = "普通body请求3")
     @PostMapping("/ee/body1")
-    public ResponseEntity<FileResp> body(@RequestBody FileResp fileResp){
+    public ResponseEntity<FileResp> body(@RequestBody FileResp fileResp) {
         return ResponseEntity.ok(fileResp);
+    }
+
+    @Operation(summary = "普通body请求4")
+    @PostMapping("/ff/body1")
+    public Res_<User> body4(@RequestBody FileResp fileResp) {
+        return null;
     }
 
 }

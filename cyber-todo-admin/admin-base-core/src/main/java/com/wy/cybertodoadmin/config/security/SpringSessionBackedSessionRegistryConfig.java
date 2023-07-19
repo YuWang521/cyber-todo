@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.session.FindByIndexNameSessionRepository;
+import org.springframework.session.FlushMode;
 import org.springframework.session.Session;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisIndexedHttpSession;
 import org.springframework.session.security.SpringSessionBackedSessionRegistry;
@@ -18,7 +19,8 @@ import org.springframework.session.security.SpringSessionBackedSessionRegistry;
  */
 @Configuration
 @RequiredArgsConstructor
-@EnableRedisIndexedHttpSession(redisNamespace = "${spring.session.redis.namespace}") // 开启支持索引保存会话
+// 开启支持索引保存会话
+@EnableRedisIndexedHttpSession(redisNamespace = "${spring.session.redis.namespace}", flushMode = FlushMode.IMMEDIATE)
 public class SpringSessionBackedSessionRegistryConfig {
 
     // @EnableRedisIndexedHttpSession 会自动注册 FindByIndexNameSessionRepository

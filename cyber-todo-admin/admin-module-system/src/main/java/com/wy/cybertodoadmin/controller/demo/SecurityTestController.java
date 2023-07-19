@@ -1,5 +1,8 @@
 package com.wy.cybertodoadmin.controller.demo;
 
+import com.wy.cybertodoadmin.core.vo.Res_;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
+@Tag(name = "功能测试模块-测试 Spring Security API")
 public class SecurityTestController {
 
     @GetMapping("/security")
-    public String securityTest() {
-        return "security test success";
+    @Operation(summary = "测试 Spring Security API - 测试 Spring Security")
+    public Res_<String> securityTest() {
+        return Res_.ok("security test success");
     }
 }

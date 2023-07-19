@@ -26,24 +26,30 @@ spring:
         url-pattern: /druid/*
         login-username: admin
         login-password: wy123456
-# ==================security配置==================
-#  security:
-#    user:
-#      name: user
-#      password: $2a$10$y/.2k6wPmRED4h/3oyKtUuX1uTKHs9HFOEAf96eSd9OmIqpdso1De
-#  ==================jedis 客户端配置==================
+  # ==================security配置==================
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 44dc283f00fc039c8eac
+            client-secret: 4c70c2c794b32547892dd2607b97ce6473db73c2
+  #    user:
+  #      name: user
+  #      password: $2a$10$y/.2k6wPmRED4h/3oyKtUuX1uTKHs9HFOEAf96eSd9OmIqpdso1De
+  #  ==================jedis 客户端配置==================
   #  data:
-#    redis:
-#      host: localhost
-#      port: 6379
-#      database: 0
-#      jedis:
-#        pool:
-#          min-idle: 0
-#          max-idle: 8
-#          max-wait: -1ms
-#          max-active: 200
-#      connect-timeout: 1000ms
+  #    redis:
+  #      host: localhost
+  #      port: 6379
+  #      database: 0
+  #      jedis:
+  #        pool:
+  #          min-idle: 0
+  #          max-idle: 8
+  #          max-wait: -1ms
+  #          max-active: 200
+  #      connect-timeout: 1000ms
   elasticsearch:
     uris:
       - http://localhost:9200

@@ -1,13 +1,15 @@
 package com.wy.cybertodoadmin.config.security;
 
 import com.wy.cybertodoadmin.config.security.encoder.SystemPasswordEncoder;
-import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationFailedHandler;
-import com.wy.cybertodoadmin.config.security.handler.JsonAuthenticationSuccessHandler;
-import com.wy.cybertodoadmin.config.security.handler.JsonLogoutSuccessHandler;
+import com.wy.cybertodoadmin.config.security.endpoint.JsonAuthenticationEntryPoint;
+import com.wy.cybertodoadmin.config.security.filter.CaptchaVerifyFilter;
+import com.wy.cybertodoadmin.config.security.handler.*;
 import com.wy.cybertodoadmin.config.security.strategy.JsonExpiredSessionStrategy;
 import com.wy.cybertodoadmin.config.security.strategy.JsonInvalidSessionStrategy;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -28,27 +31,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  */
 @Configuration
 @EnableWebSecurity(debug = false)
-
 public class SpringSecurityConfig {
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 自定义配置 SecurityFilterChain
      * 登录接口
      * swagger 接口文档不需要认证
      */
-    private static final String[] AUTH_LIST = {
-        "/login",
-        "/doc.html",
-        "/doc.html/**",
-        "/v3/api-docs/**",
-        "/configuration/ui/**",
-        "/swagger-resources/**",
-        "/configuration/security/**",
-        "/swagger-ui.html",
-        "/webjars/**",
-        "/swagger-ui/**",
-        "/log/**"
-    };
+    private static final String[] AUTH_LIST =
+        {"/login", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**",
+            "/swagger-ui.html", "/webjars/**", "/swagger-ui/**", "/login/testCaptcha", "/oauth/auth/github"};
 
     /**
      * 密码加密器
@@ -88,18 +83,28 @@ public class SpringSecurityConfig {
         http
             // 认证请求
             .authorizeHttpRequests(this::configureAuthorizeHttpRequests)
+            // 通过所有认证，仅开发时使用
+            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             // 会话管理
             .sessionManagement(this::configureSessionManagement)
             // 表单登录
             .formLogin(this::configureFormLogin)
+            //          .formLogin(Customizer.withDefaults())
+            // 未认证处理
+            .exceptionHandling(this::configureExceptionHandling)
             // 注销登录
             .logout(this::configureLogout)
             // 记住我
             .rememberMe(Customizer.withDefaults())
             // HTTP Basic
             .httpBasic(Customizer.withDefaults())
+            // 登录验证码过滤器， 添加在 UsernamePasswordAuthenticationFilter 之前
+            .addFilterBefore(new CaptchaVerifyFilter(new JsonCaptchationFailureHandler(), stringRedisTemplate), UsernamePasswordAuthenticationFilter.class)
             // CSRF
             .csrf(AbstractHttpConfigurer::disable);
+        //        ==================== OAuth2 ====================
+        // oauth2
+        http.oauth2Login(Customizer.withDefaults());
         return http.build();
     }
 
@@ -139,7 +144,10 @@ public class SpringSecurityConfig {
             //            .successForwardUrl("/index.html") // 登录成功后的跳转页面 转发，地址不变
             //            .failureUrl("/login.html?error")// 登录失败后的跳转页面 重定向，地址不变
             //            .failureForwardUrl("/login.html?error"); // 登录失败后的跳转页面 转发，地址不变
-            .successHandler(new JsonAuthenticationSuccessHandler()).failureHandler(new JsonAuthenticationFailedHandler());
+            // 自定义登录成功处理器
+            .successHandler(new JsonAuthenticationSuccessHandler())
+            // 自定义登录失败处理器
+            .failureHandler(new JsonAuthenticationFailedHandler());
     }
 
     /**
@@ -154,33 +162,45 @@ public class SpringSecurityConfig {
             // 自定义注销登录成功处理器
             .logoutSuccessHandler(new JsonLogoutSuccessHandler())
             // 注销删除cookie
-            .deleteCookies("JSESSIONID");
+            .deleteCookies("SESSION");
+    }
+
+    /**
+     * 配置认证处理 未认证，认证失败
+     */
+    private ExceptionHandlingConfigurer<HttpSecurity> configureExceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> exceptionHandling) {
+        return exceptionHandling
+            // 未认证处理
+            .authenticationEntryPoint(new JsonAuthenticationEntryPoint())
+            // 认证失败处理
+            .accessDeniedHandler(new JsonAccessDeniedHandler());
     }
 
     /**
      * 配置会话管理
      * 会话创建默认为IF_REQUIRED模式，即只有需要时才会创建会话
      * 会话的超时时间可以通过spring security的配置项server.servlet.session.timeout来配置
+     *
      * @param sessionManagement 会话管理配置器
      * @return 会话管理配置器
      */
-        private SessionManagementConfigurer<HttpSecurity> configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagement) {
-            return sessionManagement
-                // 会话创建策略
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                // 会话固定攻击保护
-                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
-                // 会话失效策略
-                .invalidSessionStrategy(new JsonInvalidSessionStrategy())
-                // 会话并发控制
-                .sessionConcurrency(sessionConcurrency -> sessionConcurrency
-                    // 最大会话数
-                    .maximumSessions(1)
-                    // 异地登录
-                    .maxSessionsPreventsLogin(false)
-                    //  session过期策略
-                    .expiredSessionStrategy(new JsonExpiredSessionStrategy()));
-        }
+    private SessionManagementConfigurer<HttpSecurity> configureSessionManagement(SessionManagementConfigurer<HttpSecurity> sessionManagement) {
+        return sessionManagement
+            // 会话创建策略
+            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+            // 会话固定攻击保护
+            .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::changeSessionId)
+            // 会话失效策略
+            .invalidSessionStrategy(new JsonInvalidSessionStrategy()).sessionAuthenticationFailureHandler(new JsonSessionAuthenticationFailureHandler())
+            // 会话并发控制
+            .sessionConcurrency(sessionConcurrency -> sessionConcurrency
+                // 最大会话数
+                .maximumSessions(1)
+                // 异地登录
+                .maxSessionsPreventsLogin(false)
+                //  session过期策略
+                .expiredSessionStrategy(new JsonExpiredSessionStrategy()));
+    }
 
     // Bascie认证
     //    private HttpBasicConfigurer<HttpSecurity> configureHt tpBasic(HttpBasicConfigurer<HttpSecurity> httpBasic) {

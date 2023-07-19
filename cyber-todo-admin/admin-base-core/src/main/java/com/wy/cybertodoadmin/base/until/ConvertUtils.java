@@ -1,6 +1,6 @@
 package com.wy.cybertodoadmin.base.until;
 
-import com.wy.cybertodoadmin.base.constant.CommonConstant;
+import com.wy.cybertodoadmin.core.constant.CommonConstant;
 import lombok.extern.slf4j.Slf4j;
 
 /**
