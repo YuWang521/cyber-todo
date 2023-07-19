@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
      * swagger 接口文档不需要认证
      */
     private static final String[] AUTH_LIST =
-        {"/login", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**",
+        {"/login/form", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**",
             "/swagger-ui.html", "/webjars/**", "/swagger-ui/**", "/login/testCaptcha", "/oauth/auth/github"};
 
     /**
@@ -84,7 +84,7 @@ public class SpringSecurityConfig {
             // 认证请求
             .authorizeHttpRequests(this::configureAuthorizeHttpRequests)
             // 通过所有认证，仅开发时使用
-            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+            //            .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
             // 会话管理
             .sessionManagement(this::configureSessionManagement)
             // 表单登录
@@ -137,7 +137,7 @@ public class SpringSecurityConfig {
     private FormLoginConfigurer<HttpSecurity> configureFormLogin(FormLoginConfigurer<HttpSecurity> formLogin) {
         return formLogin
             //            .loginPage("/login.html") // 自定义登录页面（注意要同步配置loginProcessingUrl）,如果和ProcessingUrl相同，会导致死循环
-            //            .loginProcessingUrl("/login").permitAll() // 自定义登录处理URL
+            .loginProcessingUrl("/login/form").permitAll() // 自定义登录处理URL
             //            .usernameParameter("username") // 自定义登录用户名参数名
             //            .passwordParameter("password") // 自定义登录密码参数名
             //            .defaultSuccessUrl("/index.html") // 登录成功后的跳转页面 重定向，地址不变

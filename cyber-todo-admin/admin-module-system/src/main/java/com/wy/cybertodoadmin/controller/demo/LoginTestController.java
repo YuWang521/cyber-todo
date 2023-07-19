@@ -3,6 +3,7 @@ package com.wy.cybertodoadmin.controller.demo;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.lang.UUID;
+import com.wy.cybertodoadmin.base.controller.BaseController;
 import com.wy.cybertodoadmin.core.constant.CommonConstant;
 import com.wy.cybertodoadmin.core.vo.CaptchaVO;
 import com.wy.cybertodoadmin.core.vo.Res_;
@@ -27,9 +28,8 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/login")
-@Slf4j
 @Tag(name = "功能测试模块-统一认证登录测试API")
-public class LoginTestController {
+public class LoginTestController extends BaseController {
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
@@ -41,7 +41,7 @@ public class LoginTestController {
         // 定义图形验证码的长和宽
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
         String code = lineCaptcha.getCode();// 验证码
-        log.info("生成验证码：" + lineCaptcha.getCode());
+        sysLog.info("生成验证码：" + lineCaptcha.getCode());
         String imageBase64 = lineCaptcha.getImageBase64Data(); // 验证码图片BASE64
         // 创建验证码对象
         CaptchaVO captchaVO = new CaptchaVO();

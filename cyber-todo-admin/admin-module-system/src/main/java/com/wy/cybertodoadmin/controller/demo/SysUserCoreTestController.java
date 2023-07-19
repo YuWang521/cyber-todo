@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @Tag(name = "功能测试模块-用户核心信息表接口API")
-public class SysUserCoreController {
-
-
+public class SysUserCoreTestController {
 
 }
