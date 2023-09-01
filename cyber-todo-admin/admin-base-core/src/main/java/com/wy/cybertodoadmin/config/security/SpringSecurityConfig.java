@@ -1,12 +1,5 @@
 package com.wy.cybertodoadmin.config.security;
 
-import com.wy.cybertodoadmin.config.security.encoder.SystemPasswordEncoder;
-import com.wy.cybertodoadmin.config.security.endpoint.JsonAuthenticationEntryPoint;
-import com.wy.cybertodoadmin.config.security.filter.CaptchaVerifyFilter;
-import com.wy.cybertodoadmin.config.security.handler.*;
-import com.wy.cybertodoadmin.config.security.strategy.JsonExpiredSessionStrategy;
-import com.wy.cybertodoadmin.config.security.strategy.JsonInvalidSessionStrategy;
-import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -20,6 +13,15 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.wy.cybertodoadmin.config.security.encoder.SystemPasswordEncoder;
+import com.wy.cybertodoadmin.config.security.endpoint.JsonAuthenticationEntryPoint;
+import com.wy.cybertodoadmin.config.security.filter.CaptchaVerifyFilter;
+import com.wy.cybertodoadmin.config.security.handler.*;
+import com.wy.cybertodoadmin.config.security.strategy.JsonExpiredSessionStrategy;
+import com.wy.cybertodoadmin.config.security.strategy.JsonInvalidSessionStrategy;
+
+import jakarta.annotation.Resource;
 
 /**
  * @author WangYu
@@ -42,8 +44,9 @@ public class SpringSecurityConfig {
      * swagger 接口文档不需要认证
      */
     private static final String[] AUTH_LIST =
-        {"/login/form", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**",
-            "/swagger-ui.html", "/webjars/**", "/swagger-ui/**", "/login/testCaptcha", "/oauth/auth/github"};
+        {"/druid/**", "/login/form", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**",
+            "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**",
+            "/login/testCaptcha", "/oauth/auth/github"};
 
     /**
      * 密码加密器
