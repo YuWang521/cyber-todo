@@ -44,7 +44,8 @@ public class SpringSecurityConfig {
      * swagger 接口文档不需要认证
      */
     private static final String[] AUTH_LIST =
-        {"/druid/**", "/login/form", "/doc.html", "/doc.html/**", "/v3/api-docs/**", "/configuration/ui/**",
+        {"/xxl-job/**", "/druid/**", "/login/form", "/doc.html", "/doc.html/**", "/v3/api-docs/**",
+            "/configuration/ui/**",
             "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**", "/swagger-ui/**",
             "/login/testCaptcha", "/oauth/auth/github"};
 

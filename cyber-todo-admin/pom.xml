@@ -47,6 +47,7 @@
         <redisson-spring-boot-starter.version>3.22.1</redisson-spring-boot-starter.version>
         <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
         <freemarker.version>2.3.31</freemarker.version>
+        <xxl-job-core.version>2.4.0</xxl-job-core.version>
         <!--    ==================工具库===================    -->
         <knife4j.version>4.1.0</knife4j.version>
         <hutool.version>5.8.20</hutool.version>
@@ -170,19 +171,25 @@
             <version>${freemarker.version}</version>
         </dependency>
 
+        <!--   xxl-job    -->
+        <!--xxl-job-->
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job-core.version}</version>
+        </dependency>
 
 
         <!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
-<!--            &lt;!&ndash;    版本跟随 springboot版本        &ndash;&gt;-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>redis.clients</groupId>-->
-<!--            <artifactId>jedis</artifactId>-->
-<!--            &lt;!&ndash;    版本跟随 springboot版本        &ndash;&gt;-->
-<!--        </dependency>-->
-
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--            &lt;!&ndash;    版本跟随 springboot版本        &ndash;&gt;-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>redis.clients</groupId>-->
+        <!--            <artifactId>jedis</artifactId>-->
+        <!--            &lt;!&ndash;    版本跟随 springboot版本        &ndash;&gt;-->
+        <!--        </dependency>-->
 
 
         <!--  ================================工具库=================================    -->
