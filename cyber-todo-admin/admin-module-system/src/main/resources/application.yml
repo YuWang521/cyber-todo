@@ -53,10 +53,10 @@ springdoc:
   group-configs:
     - group: 'main'
       paths-to-match: '/**'
-      packages-to-scan: com.wy.cybertodoadmin  #改成你自己的包名，一般到启动类的包名
+      packages-to-scan: com.wy.cybertodoadmin  #启动类的包名
   default-flat-param-object: true
 
-#knife4j相关配置 可以不用改
+#knife4j
 knife4j:
   enable: true
   setting:

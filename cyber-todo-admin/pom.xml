@@ -45,7 +45,7 @@
         <!--    ==================中间件===================    -->
         <spring-boot-starter-data-elasticsearch.version>3.0.0</spring-boot-starter-data-elasticsearch.version>
         <redisson-spring-boot-starter.version>3.22.1</redisson-spring-boot-starter.version>
-        <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
+        <mybatis-plus-generator.version>3.5.3</mybatis-plus-generator.version>
         <freemarker.version>2.3.31</freemarker.version>
         <xxl-job-core.version>2.4.0</xxl-job-core.version>
         <!--    ==================工具库===================    -->

@@ -53,10 +53,10 @@ public class RedissonConfig {
     private String address;
 
 
-    @Value("${redisson.singleServerConfig.port}")
+    @Value("${redisson.singleServerConfig.password}")
     private String password;
 
-    @Value("${redisson.singleServerConfig.password}")
+    @Value("${redisson.singleServerConfig.sentinels}")
     private String sentinel;
 
     @Value("${redisson.singleServerConfig.database}")
@@ -128,10 +128,10 @@ public class RedissonConfig {
         config.setCodec(new FastJson2Codec());
         if ("true".equals(this.sentinel)) {
             SentinelServersConfig sentinelServersConfig = config.useSentinelServers();
-            sentinelServersConfig.setDatabase(database).setPassword(password).setMasterName(masterName).setSentinelAddresses(Arrays.asList(host.split(",")));
+            sentinelServersConfig.setDatabase(database).setMasterName(masterName).setSentinelAddresses(Arrays.asList(host.split(",")));
         } else {
             SingleServerConfig singleServerConfig = config.useSingleServer();
-            singleServerConfig.setDatabase(database).setAddress(address);
+            singleServerConfig.setDatabase(database).setAddress(address).setPassword(password);
         }
         return config;
     }

@@ -1,6 +1,8 @@
 package com.wy.cybertodoadmin.config.db;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -100,6 +102,8 @@ public class MybatisDataSourceConfig {
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        return new MybatisPlusInterceptor();
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
     }
 }

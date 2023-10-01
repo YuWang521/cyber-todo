@@ -4,7 +4,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/cyber-todo-admin-db?serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: root
-    password: wy123456
+    password: wy12345^
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     filters: stat,wall,log4j
     initialSize: 20
@@ -71,7 +71,8 @@ redisson:
     timeout: 10000
     retryInterval: 3000
     retryAttempts: 3
-    password: null
+    password: wy123456
+    sentinels: null
     subscriptionsPerConnection: 5
     clientName: null
   threads: 512
